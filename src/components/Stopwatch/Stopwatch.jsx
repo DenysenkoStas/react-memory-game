@@ -52,7 +52,9 @@ export default function Stopwatch({play, reset, saveTime, returnTime}) {
 
   return (
     <div className={styles.root}>
-      {data?.minutes}:{data?.seconds}:{data?.milliseconds}
+      {data?.minutes}m<span>:</span>
+      {data?.seconds}s<span>:</span>
+      {data?.milliseconds}ms
     </div>
   );
 }

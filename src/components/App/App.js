@@ -81,19 +81,19 @@ export default function App() {
         setTimeout(() => {
           updateCard(first);
           updateCard(second);
-        }, 500);
+        }, 300);
       } else {
         setWrong((prev) => prev + 1);
         setTimeout(() => {
           updateCard(first, false);
           updateCard(second, false);
-        }, 500);
+        }, 300);
       }
 
       setTimeout(() => {
         setFirst(null);
         setSecond(null);
-      }, 500);
+      }, 300);
     }
   }, [first, second]);
 
@@ -116,12 +116,13 @@ export default function App() {
     setReset(true);
   };
 
-  const calculateScores = () => {
+  const calculateScores = (time) => {
     let bonus = 0;
     let multiplier = 2;
+    // console.log(time);
 
     if (gridRepeat === 2) {
-      if (!Number(time?.minutes) && Number(time?.seconds) <= 30) multiplier = 3;
+      if (Number(time?.minutes) && Number(time?.seconds) <= 30) multiplier = 3;
       if (!wrong) bonus = 100;
     }
     if (gridRepeat === 4) {
@@ -158,7 +159,7 @@ export default function App() {
   useEffect(() => {
     if (cards?.length && cards.length / 2 === correct) {
       setPlay(false);
-      calculateScores();
+      calculateScores(time);
     }
   }, [correct]);
 
