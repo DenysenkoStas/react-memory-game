@@ -1,0 +1,58 @@
+.main {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  min-height: 100vh;
+}
+
+.grid {
+  display: grid;
+  gap: 8px;
+
+  @media (max-width: 767px) {
+    gap: 4px;
+  }
+}
+
+.card {
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  background-color: #8fbc8f;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  aspect-ratio: 1;
+  transition: transform .2s linear, background-color .2s linear;
+  cursor: pointer;
+
+  @media (max-width: 767px) {
+    border-width: 1px;
+  }
+
+  @media (hover) {
+    &:hover, &:focus-visible {
+      transform: scale(1.05);
+    }
+  }
+
+  &:disabled {
+    background-color: plum;
+    transform: perspective(100px) rotateY(180deg);
+    pointer-events: none;
+
+    :global(.material-symbols-rounded) {
+      transform: scaleX(-1);
+      color: white;
+      text-shadow: 0 0 4px rgb(0, 0, 0, .3);
+    }
+  }
+
+  :global(.material-symbols-rounded) {
+    font-size: 56px;
+    color: #2c3e50;
+
+    @media (max-width: 767px) {
+      font-size: 10vw;
+    }
+  }
+}

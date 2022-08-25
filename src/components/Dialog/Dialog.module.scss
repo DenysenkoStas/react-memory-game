@@ -1,0 +1,81 @@
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  background-color: rgba(23, 32, 42, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s linear;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.dialog {
+  padding: 32px;
+  width: 100%;
+  max-width: 428px;
+  text-align: center;
+  background-color: white;
+  border: 2px solid indigo;
+  border-radius: 8px;
+}
+
+.title {
+  color: indigo;
+}
+
+.score {
+  display: grid;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  font-size: 28px;
+  color: #CB4335;
+}
+
+.time {
+  display: grid;
+  font-size: 20px;
+  color: #2c3e50;
+}
+
+.btnGroup {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.btn {
+  padding: 12px 16px;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  background-color: #1e8449;
+  border: 2px solid #1e8449;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color .2s, background-color .2s;
+
+  &.btnAlt {
+    background-color: tomato;
+    border-color: tomato;
+  }
+
+  @media (hover) {
+    &:hover, &:focus-visible {
+      color: #1e8449;
+      background-color: white;
+
+      &.btnAlt {
+        color: tomato;
+      }
+    }
+  }
+}
