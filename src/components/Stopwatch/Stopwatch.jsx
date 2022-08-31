@@ -8,7 +8,7 @@ export default function Stopwatch({play, reset, saveTime, returnTime}) {
 
   const resetStopwatch = () => {
     setTime(0);
-    setData({});
+    setData({minutes: '00', seconds: '00', milliseconds: '00'});
   };
 
   useEffect(() => {
@@ -52,9 +52,11 @@ export default function Stopwatch({play, reset, saveTime, returnTime}) {
 
   return (
     <div className={styles.root}>
-      {data?.minutes}m<span>:</span>
-      {data?.seconds}s<span>:</span>
-      {data?.milliseconds}ms
+      {data?.minutes}
+      <span>:</span>
+      {data?.seconds}
+      <span>:</span>
+      {data?.milliseconds}
     </div>
   );
 }

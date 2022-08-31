@@ -1,14 +1,13 @@
 .root {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-wrap: wrap;
   place-items: center;
   gap: 2px;
-  padding: 8px 12px;
-  min-width: 112px;
   font-family: monospace;
   font-size: 20px;
   line-height: 1;
-  color: white;
-  background-color: #8e44ad;
-  border-radius: 8px;
+  color: #8e44ad;
 }

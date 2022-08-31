@@ -1,14 +1,17 @@
 .root {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 4px;
+  left: 8px;
+  right: 8px;
+  z-index: 1;
   padding: 16px 8px;
-  background-color: white;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 3px #b2b2b2;
 }
 
 .container {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -18,8 +21,8 @@
   margin-right: auto;
   width: 100%;
 
-  @media (min-width: 768px) {
-    max-width: 640px;
+  @media (min-width: 1024px) {
+    max-width: 1024px;
   }
 }
 
@@ -28,6 +31,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+
+  &.gap {
+    gap: 16px;
+  }
 }
 
 .info {
@@ -42,7 +49,7 @@
   }
 
   .infoLabel {
-    padding: 8px;
+    padding: 4px 8px;
     width: 100%;
     color: white;
     background-color: #16a085;
@@ -71,29 +78,128 @@
   }
 }
 
+.menuWrap {
+  position: relative;
+}
+
+.resetBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-weight: 700;
+  color: #ffffff;
+  //background-color: #27ae60;
+  background-color: tomato;
+  //border: 1px solid #27ae60;
+  border: 1px solid tomato;
+  border-radius: 8px;
+  //box-shadow: 0 2px 0 3px #16a085;
+  box-shadow: 0 2px 0 3px #BA4A00;
+  cursor: pointer;
+  transition: color .2s, background-color .2s, box-shadow .2s;
+
+  @media (hover) {
+    &:hover, &:focus-visible {
+      //color: #27ae60;
+      color: tomato;
+      background-color: #ffffff;
+      //box-shadow: 0 1px 0 1px #27ae60;
+      box-shadow: 0 1px 0 1px tomato;
+
+      svg path {
+        fill: tomato;
+      }
+    }
+  }
+
+  svg path {
+    fill: #ffffff;
+    transition: fill .2s;
+  }
+}
+
+.menuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #2980b9;
+  border: 1px solid #2980b9;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 3px #216293;
+  cursor: pointer;
+  transition: color .2s, background-color .2s, box-shadow .2s;
+
+  @media (hover) {
+    &:hover, &:focus-visible {
+      color: #2980b9;
+      background-color: #ffffff;
+      box-shadow: 0 1px 0 1px #2980b9;
+
+      svg path {
+        fill: #2980b9;
+      }
+    }
+  }
+
+  svg path {
+    fill: #ffffff;
+    transition: fill .2s;
+  }
+}
+
+.menu {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 3px #b2b2b2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s, visibility .2s;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 .btn {
   padding: 2px;
   min-width: 42px;
   font-family: monospace;
   font-weight: 700;
-  color: white;
-  background-color: #2980b9;
-  border: 2px solid #2980b9;
+  color: #2980b9;
+  background-color: white;
+  border: 1px solid #2980b9;
   border-radius: 8px;
+  box-shadow: 0 2px 0 2px #2980b9;
   aspect-ratio: 1;
   cursor: pointer;
-  transition: background-color .2s, border-color .2s;
+  transition: color .2s, background-color .2s, box-shadow .2s;
 
   &:disabled {
-    color: #2980b9;
-    background-color: white;
+    color: white;
+    background-color: #2980b9;
+    box-shadow: none;
     pointer-events: none;
   }
 
   @media (hover) {
     &:hover, &:focus-visible {
-      background-color: #1f618d;
-      border-color: #1f618d;
+      color: white;
+      background-color: #2980b9;
+      box-shadow: 0 1px 0 1px #2980b9;
     }
   }
 }
