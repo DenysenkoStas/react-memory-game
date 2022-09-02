@@ -33,27 +33,43 @@
   gap: 8px;
 
   &.gap {
-    gap: 16px;
+    gap: 12px;
+
+    @media (min-width: 768px) {
+      gap: 16px;
+    }
   }
 }
 
 .info {
   display: flex;
   align-items: stretch;
-  min-width: 132px;
+
+  @media (min-width: 768px) {
+    min-width: 132px;
+  }
 
   .infoLabel, .infoValue {
     display: grid;
     place-items: center;
-    border: 2px solid #16a085;
+    border: 3px solid #16a085;
+
+    @media (min-width: 768px) {
+      border-width: 2px;
+    }
   }
 
   .infoLabel {
+    display: none;
     padding: 4px 8px;
     width: 100%;
     color: white;
     background-color: #16a085;
     border-radius: 8px 0 0 8px;
+
+    @media (min-width: 768px) {
+      display: inline-block;
+    }
   }
 
   .infoValue {
@@ -62,7 +78,11 @@
     font-family: monospace;
     font-size: 20px;
     color: #16a085;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
+
+    @media (min-width: 768px) {
+      border-radius: 0 8px 8px 0;
+    }
   }
 
   &.infoAlt {
@@ -82,12 +102,13 @@
   position: relative;
 }
 
-.resetBtn {
+.resetBtn,
+.menuBtn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 6px 12px;
+  padding: 4px;
   font-weight: 700;
   color: #ffffff;
   //background-color: #27ae60;
@@ -96,9 +117,13 @@
   border: 1px solid tomato;
   border-radius: 8px;
   //box-shadow: 0 2px 0 3px #16a085;
-  box-shadow: 0 2px 0 3px #BA4A00;
+  box-shadow: 0 2px 0 3px #ba4a00;
   cursor: pointer;
   transition: color .2s, background-color .2s, box-shadow .2s;
+
+  @media (min-width: 768px) {
+    padding: 6px 12px;
+  }
 
   @media (hover) {
     &:hover, &:focus-visible {
@@ -114,6 +139,14 @@
     }
   }
 
+  span {
+    display: none;
+
+    @media (min-width: 768px) {
+      display: inline-block;
+    }
+  }
+
   svg path {
     fill: #ffffff;
     transition: fill .2s;
@@ -121,19 +154,9 @@
 }
 
 .menuBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 6px 12px;
-  font-weight: 700;
-  color: #ffffff;
   background-color: #2980b9;
   border: 1px solid #2980b9;
-  border-radius: 8px;
   box-shadow: 0 2px 0 3px #216293;
-  cursor: pointer;
-  transition: color .2s, background-color .2s, box-shadow .2s;
 
   @media (hover) {
     &:hover, &:focus-visible {
@@ -146,16 +169,11 @@
       }
     }
   }
-
-  svg path {
-    fill: #ffffff;
-    transition: fill .2s;
-  }
 }
 
 .menu {
   position: absolute;
-  top: 52px;
+  top: 46px;
   right: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -167,6 +185,10 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity .2s, visibility .2s;
+
+  @media (min-width: 768px) {
+    top: 52px;
+  }
 
   &.open {
     opacity: 1;

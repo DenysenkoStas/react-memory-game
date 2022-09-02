@@ -6,8 +6,13 @@
   flex-wrap: wrap;
   place-items: center;
   gap: 2px;
+  padding: 16px 8px;
   font-family: monospace;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
   color: #8e44ad;
+
+  @media (min-width: 425px) {
+    font-size: 20px;
+  }
 }
