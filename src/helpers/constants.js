@@ -35,15 +35,15 @@ import {ReactComponent as HardwareIcon} from '../assets/icons/hardware.svg';
 import {ReactComponent as StadiumIcon} from '../assets/icons/stadium.svg';
 import {ReactComponent as TerrainIcon} from '../assets/icons/terrain.svg';
 
-export const levelButtons = [
-  {label: '2×2', cols: 2, sliceSize: 2},
-  {label: '3×4', cols: 3, sliceSize: 6},
-  {label: '4×4', cols: 4, sliceSize: 8},
-  {label: '5×6', cols: 5, sliceSize: 15},
-  {label: '6×6', cols: 6, sliceSize: 18},
-  {label: '7×8', cols: 7, sliceSize: 28},
-  {label: '8×8', cols: 8, sliceSize: 32},
-  {label: '9×8', cols: 9, sliceSize: 36}
+export const levels = [
+  {label: '2×2', cols: 2, sliceSize: 2, bonusTime: 3},
+  {label: '3×4', cols: 3, sliceSize: 6, bonusTime: 15},
+  {label: '4×4', cols: 4, sliceSize: 8, bonusTime: 30},
+  {label: '5×6', cols: 5, sliceSize: 15, bonusTime: 60},
+  {label: '6×6', cols: 6, sliceSize: 18, bonusTime: 60},
+  {label: '7×8', cols: 7, sliceSize: 28, bonusTime: 120},
+  {label: '8×8', cols: 8, sliceSize: 32, bonusTime: 120},
+  {label: '9×8', cols: 9, sliceSize: 36, bonusTime: 180}
 ];
 
 export const icons = [

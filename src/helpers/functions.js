@@ -18,3 +18,14 @@ export const shuffleArray = (array) => {
   }
   return array;
 };
+
+export const generateArray = (array = [], sliceEnd = 2) => {
+  const firstArray = array?.slice(0, sliceEnd).map((icon) => ({
+    id: generateId(),
+    value: icon,
+    color: randomRgbColor()
+  }));
+  const secondArray = firstArray?.map((obj) => ({...obj, id: generateId()}));
+  const concatArray = [...firstArray, ...secondArray];
+  return shuffleArray(concatArray);
+};

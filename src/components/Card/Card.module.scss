@@ -1,0 +1,43 @@
+.root {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  background-color: #8fbc8f;
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  aspect-ratio: 1;
+  transition: transform .3s, background-color .2s;
+  cursor: pointer;
+
+  @media (hover) {
+    &:hover, &:focus-visible {
+      transform: scale(1.05);
+      background-color: #66a866;
+    }
+  }
+
+  &:disabled {
+    background-color: #2980b9;
+    transform: perspective(100px) rotateY(180deg);
+    pointer-events: none;
+
+    svg {
+      transform: scaleX(-1);
+      filter: drop-shadow(0 0 4px rgb(0, 0, 0, .3));
+
+      path {
+        fill: #ffffff;
+      }
+    }
+  }
+
+  svg {
+    width: 100%;
+    max-width: 56px;
+    height: auto;
+
+    path {
+      fill: #2c3e50;
+    }
+  }
+}

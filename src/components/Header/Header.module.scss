@@ -102,8 +102,7 @@
   position: relative;
 }
 
-.resetBtn,
-.menuBtn {
+.btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,13 +110,10 @@
   padding: 4px;
   font-weight: 700;
   color: #ffffff;
-  //background-color: #27ae60;
-  background-color: tomato;
-  //border: 1px solid #27ae60;
-  border: 1px solid tomato;
+  background-color: #27ae60;
+  border: 1px solid #27ae60;
   border-radius: 8px;
-  //box-shadow: 0 2px 0 3px #16a085;
-  box-shadow: 0 2px 0 3px #ba4a00;
+  box-shadow: 0 2px 0 3px #16a085;
   cursor: pointer;
   transition: color .2s, background-color .2s, box-shadow .2s;
 
@@ -127,14 +123,12 @@
 
   @media (hover) {
     &:hover, &:focus-visible {
-      //color: #27ae60;
-      color: tomato;
+      color: #27ae60;
       background-color: #ffffff;
-      //box-shadow: 0 1px 0 1px #27ae60;
-      box-shadow: 0 1px 0 1px tomato;
+      box-shadow: 0 1px 0 1px #27ae60;
 
       svg path {
-        fill: tomato;
+        fill: #27ae60;
       }
     }
   }
@@ -142,7 +136,7 @@
   span {
     display: none;
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       display: inline-block;
     }
   }
@@ -151,23 +145,49 @@
     fill: #ffffff;
     transition: fill .2s;
   }
-}
 
-.menuBtn {
-  background-color: #2980b9;
-  border: 1px solid #2980b9;
-  box-shadow: 0 2px 0 3px #216293;
+  &.orange {
+    background-color: tomato;
+    border: 1px solid tomato;
+    box-shadow: 0 2px 0 3px #ba4a00;
 
-  @media (hover) {
-    &:hover, &:focus-visible {
-      color: #2980b9;
-      background-color: #ffffff;
-      box-shadow: 0 1px 0 1px #2980b9;
+    @media (hover) {
+      &:hover, &:focus-visible {
+        color: tomato;
+        background-color: #ffffff;
+        box-shadow: 0 1px 0 1px tomato;
 
-      svg path {
-        fill: #2980b9;
+        svg path {
+          fill: tomato;
+        }
       }
     }
+  }
+
+  &.blue {
+    background-color: #2980b9;
+    border: 1px solid #2980b9;
+    box-shadow: 0 2px 0 3px #216293;
+
+    @media (hover) {
+      &:hover, &:focus-visible {
+        color: #2980b9;
+        background-color: #ffffff;
+        box-shadow: 0 1px 0 1px #2980b9;
+
+        svg path {
+          fill: #2980b9;
+        }
+      }
+    }
+  }
+
+  &:disabled {
+    background-color: #bdc3c7;
+    border: 1px solid #bdc3c7;
+    box-shadow: 0 2px 0 3px #7f8c8d;
+    user-select: none;
+    pointer-events: none;
   }
 }
 
@@ -196,7 +216,7 @@
   }
 }
 
-.btn {
+.levelBtn {
   padding: 2px;
   min-width: 42px;
   font-family: monospace;

@@ -1,9 +1,9 @@
 import styles from './Dialog.module.scss';
 
-export default function Dialog({cards, correct, scores, time, gridRepeat, resetLevel, nextLevel}) {
+export default function Dialog({open, scores, time, gridRepeat, resetLevel, nextLevel}) {
   return (
-    <div className={`${styles.root}${cards?.length / 2 === correct ? ` ${styles.active}` : ''}`}>
-      {cards?.length / 2 === correct && (
+    <div className={`${styles.root}${open ? ` ${styles.active}` : ''}`}>
+      {open && (
         <div className={styles.dialog}>
           <h1 className={styles.title}>LEVEL COMPLETE</h1>
 

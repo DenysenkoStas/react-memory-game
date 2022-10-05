@@ -8,11 +8,11 @@
   gap: 2px;
   padding: 16px 8px;
   font-family: monospace;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
   color: #8e44ad;
 
-  @media (min-width: 425px) {
-    font-size: 20px;
+  @media (max-width: 424px) {
+    top: 58px
   }
 }

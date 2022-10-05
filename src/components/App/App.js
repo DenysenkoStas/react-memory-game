@@ -1,62 +1,60 @@
 import {useCallback, useEffect, useState} from 'react';
-import {icons} from '../../helpers/constants';
-import {generateId, randomRgbColor, shuffleArray} from '../../helpers/functions';
+import {icons, levels} from '../../helpers/constants';
+import {generateArray} from '../../helpers/functions';
 import Header from '../Header';
 import Stopwatch from '../Stopwatch';
+import Card from '../Card';
 import Dialog from '../Dialog';
-import {ReactComponent as QuestionMarkIcon} from '../../assets/icons/question_mark.svg';
 import styles from './App.module.scss';
 
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [cards, setCards] = useState([]);
+  const [showAll, setShowAll] = useState(false);
   const [gridRepeat, setGridRepeat] = useState(2);
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
-  const [first, setFirst] = useState(null);
-  const [second, setSecond] = useState(null);
-  const [play, setPlay] = useState(false);
-  const [reset, setReset] = useState(false);
+  const [firstCard, setFirstCard] = useState(null);
+  const [secondCard, setSecondCard] = useState(null);
+  const [playTimer, setPlayTimer] = useState(false);
+  const [resetTimer, setResetTimer] = useState(false);
   const [time, setTime] = useState({});
   const [scores, setScores] = useState(0);
 
-  const generateArray = (array = [], sliceEnd = 2) => {
-    const firstArray = array?.slice(0, sliceEnd).map((icon) => ({
-      id: generateId(),
-      value: icon,
-      color: randomRgbColor()
-    }));
-    const secondArray = firstArray?.map((obj) => ({...obj, id: generateId()}));
-    const concatArray = [...firstArray, ...secondArray];
-    return shuffleArray(concatArray);
-  };
-
-  const setGridSize = (sliceEnd = 2) => {
-    if (sliceEnd === 2) setGridRepeat(2);
-    if (sliceEnd === 6) setGridRepeat(3);
-    if (sliceEnd === 8) setGridRepeat(4);
-    if (sliceEnd === 15) setGridRepeat(5);
-    if (sliceEnd === 18) setGridRepeat(6);
-    if (sliceEnd === 28) setGridRepeat(7);
-    if (sliceEnd === 32) setGridRepeat(8);
-    if (sliceEnd === 36) setGridRepeat(9);
-
+  const changeLevel = (sliceEnd = 2) => {
     setLoading(true);
+    levels.find((level) => {
+      if (level.sliceSize === sliceEnd) setGridRepeat(level.cols);
+    });
     const data = generateArray(icons, sliceEnd);
-    if (data) {
+    const displayTime = sliceEnd > 15 ? 1500 : 750;
+
+    if (data?.length) {
       setCards(data);
-      setTimeout(() => setLoading(false), 500);
+      setLoading(false);
+      showCards(displayTime);
     }
-    resetState();
+    resetStats();
   };
 
-  const resetState = () => {
-    setFirst(null);
-    setSecond(null);
-    setCorrect(0);
-    setWrong(0);
+  useEffect(() => {
+    changeLevel();
+  }, []);
+
+  const resetStats = () => {
+    if (firstCard) setFirstCard(null);
+    if (secondCard) setSecondCard(null);
+    if (correct) setCorrect(0);
+    if (wrong) setWrong(0);
     if (cards.length / 2 !== correct) setScores(0);
   };
+
+  const showCards = (timeout) => {
+    setShowAll(true);
+    if (timeout) setTimeout(() => setShowAll(false), timeout);
+  };
+
+  const pauseLevel = () => playTimer && setPlayTimer(false);
 
   const updateCard = (data, open = true) => {
     setCards((prev) =>
@@ -70,164 +68,116 @@ export default function App() {
   };
 
   const selectCard = (data) => () => {
-    if (!first && !second) {
-      setFirst(data);
+    if (!firstCard && !secondCard) {
+      setFirstCard(data);
       updateCard(data);
     }
-    if (first && !second) {
-      setSecond(data);
+    if (firstCard && !secondCard) {
+      setSecondCard(data);
       updateCard(data);
     }
+    startTimer();
   };
 
   const compareCards = useCallback(() => {
-    if (first && second) {
-      if (first?.value === second?.value) {
+    if (firstCard && secondCard) {
+      if (firstCard?.value === secondCard?.value) {
         setCorrect((prev) => prev + 1);
         setTimeout(() => {
-          updateCard(first);
-          updateCard(second);
+          updateCard(firstCard);
+          updateCard(secondCard);
         }, 300);
       } else {
         setWrong((prev) => prev + 1);
         setTimeout(() => {
-          updateCard(first, false);
-          updateCard(second, false);
+          updateCard(firstCard, false);
+          updateCard(secondCard, false);
         }, 300);
       }
 
       setTimeout(() => {
-        setFirst(null);
-        setSecond(null);
+        setFirstCard(null);
+        setSecondCard(null);
       }, 300);
     }
-  }, [first, second]);
+  }, [firstCard, secondCard]);
 
   useEffect(() => {
     compareCards();
   }, [compareCards]);
 
-  const resetLevel = () => {
-    if (gridRepeat === 2) setGridSize(2);
-    if (gridRepeat === 3) setGridSize(6);
-    if (gridRepeat === 4) setGridSize(8);
-    if (gridRepeat === 5) setGridSize(15);
-    if (gridRepeat === 6) setGridSize(18);
-    if (gridRepeat === 7) setGridSize(28);
-    if (gridRepeat === 8) setGridSize(32);
-    if (gridRepeat === 9) setGridSize(36);
-    play && setPlay(false);
-    setReset(true);
-    setScores(0);
+  const startTimer = () => {
+    if (!playTimer) {
+      setPlayTimer(true);
+      if (resetTimer) setResetTimer(false);
+    }
   };
 
-  const nextLevel = () => {
-    if (gridRepeat === 2) setGridSize(6);
-    if (gridRepeat === 3) setGridSize(8);
-    if (gridRepeat === 4) setGridSize(15);
-    if (gridRepeat === 5) setGridSize(18);
-    if (gridRepeat === 6) setGridSize(28);
-    if (gridRepeat === 7) setGridSize(32);
-    if (gridRepeat === 8) setGridSize(36);
-    if (gridRepeat === 9) setGridSize(2);
-    setReset(true);
+  const stopTimer = () => {
+    if (playTimer) {
+      setPlayTimer(false);
+      if (!resetTimer) setResetTimer(true);
+    }
   };
+
+  useEffect(() => {
+    stopTimer();
+  }, [gridRepeat]);
+
+  const allCardsOpen = cards.length && cards.filter((card) => card?.open).length === cards.length;
+
+  useEffect(() => {
+    if (allCardsOpen) {
+      stopTimer();
+      calculateScores();
+    }
+  }, [time]);
 
   const calculateScores = () => {
     let bonus = 0;
     let multiplier = 2;
+    const currentLevel = levels.find((level) => level.cols === gridRepeat);
+    const finishTime = Number(time?.minutes) * 60 + Number(time?.seconds);
 
-    if (gridRepeat === 2) {
-      if (!Number(time?.minutes) && Number(time?.seconds) <= 3) multiplier = 3;
-      if (!wrong) bonus = 200;
-    }
-    if (gridRepeat === 3) {
-      if (!Number(time?.minutes) && Number(time?.seconds) <= 15) multiplier = 4;
-      if (wrong <= 3) bonus = 300;
-    }
-    if (gridRepeat === 4) {
-      if (!Number(time?.minutes) && Number(time?.seconds) <= 30) multiplier = 5;
-      if (wrong <= 6) bonus = 400;
-    }
-    if (gridRepeat === 5) {
-      if (Number(time?.minutes) <= 1) multiplier = 6;
-      if (wrong <= 9) bonus = 500;
-    }
-    if (gridRepeat === 6) {
-      if (Number(time?.minutes) <= 1) multiplier = 7;
-      if (wrong <= 12) bonus = 600;
-    }
-    if (gridRepeat === 7) {
-      if (Number(time?.minutes) <= 2) multiplier = 8;
-      if (wrong <= 15) bonus = 700;
-    }
-    if (gridRepeat === 8) {
-      if (Number(time?.minutes) <= 2) multiplier = 9;
-      if (wrong <= 18) bonus = 800;
-    }
-    if (gridRepeat === 9) {
-      if (Number(time?.minutes) <= 3) multiplier = 10;
-      if (wrong <= 21) bonus = 900;
+    if (gridRepeat === currentLevel.cols) {
+      if (finishTime <= currentLevel.bonusTime) multiplier = currentLevel.cols + 1;
+      if (!wrong || wrong <= currentLevel.sliceSize - currentLevel.cols) bonus = currentLevel.cols * 100;
     }
 
     const calc = correct * multiplier * 10 - wrong * 10 + bonus;
     setScores((prev) => prev + calc);
   };
 
-  useEffect(() => {
-    setGridSize();
-  }, []);
+  const resetLevel = () => {
+    levels.find((level) => {
+      if (level.cols === gridRepeat) changeLevel(level.sliceSize);
+    });
+    stopTimer();
+    setScores(0);
+    showCards();
+  };
 
-  useEffect(() => {
-    if (!play && first) {
-      setPlay(true);
-      setReset(false);
-    }
-  }, [first]);
+  const nextLevel = () => {
+    let currentLevel = levels.findIndex((el) => el.cols === gridRepeat);
+    changeLevel(levels[currentLevel + 1 === levels.length ? 0 : currentLevel + 1].sliceSize);
+  };
 
-  useEffect(() => {
-    if (play) {
-      setPlay(false);
-      setReset(true);
-    }
-  }, [gridRepeat]);
-
-  useEffect(() => {
-    if (cards?.length && cards.length / 2 === correct) {
-      setPlay(false);
-      calculateScores();
-    }
-  }, [time]);
-
+  if (loading) return null;
   return (
     <>
-      <Header {...{correct, wrong, gridRepeat, resetLevel, setGridSize}}>
-        <Stopwatch
-          play={play}
-          reset={reset}
-          saveTime={cards?.length && cards?.length / 2 === correct}
-          returnTime={setTime}
-        />
+      <Header {...{correct, wrong, gridRepeat, playTimer, pauseLevel, resetLevel, changeLevel}}>
+        <Stopwatch play={playTimer} reset={resetTimer} saveTime={allCardsOpen} returnTime={setTime} />
       </Header>
 
       <main className={styles.main}>
         <div style={{gridTemplateColumns: `repeat(${gridRepeat}, minmax(32px, 100px))`}} className={styles.grid}>
           {cards?.map(({id, value, color, open}) => (
-            <button
-              key={id}
-              style={{backgroundColor: open || loading ? color : ''}}
-              className={styles.card}
-              type='button'
-              disabled={open || loading}
-              onClick={selectCard({id, value, open})}
-            >
-              {open || loading ? value : <QuestionMarkIcon />}
-            </button>
+            <Card key={id} open={open || showAll} color={color} value={value} onClick={selectCard({id, value, open})} />
           ))}
         </div>
       </main>
 
-      <Dialog {...{cards, correct, scores, time, gridRepeat, resetLevel, nextLevel}} />
+      <Dialog open={allCardsOpen} {...{scores, time, gridRepeat, resetLevel, nextLevel}} />
     </>
   );
 }
